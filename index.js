@@ -38,6 +38,45 @@ app.get("/pokemon/list", function (req, res) {
 app.post('/pokemon/insert', jsonParser, (req, res) => {
   const body = req.body;
   console.log('Got body:', body);
-  //on code ensuite l'insertion dans mongoDB, lisez la doc hehe !!
-  res.json(body);
+  const dbConnect = dbo.getDb();
+  dbConnect
+  .collection("pokemon")
+  .insertOne(body)
+  .then(function (result, err) {
+    if (err) {
+      res.status(400).send(err.message);
+    }
+      res.json(result);
+  });
+});
+
+app.delete('/pokemon/delete', jsonParser, (req, res) => {
+  const body = req.body;
+  console.log('Got body:', body);
+  const dbConnect = dbo.getDb();
+  dbConnect
+  .collection("pokemon")
+  .deleteOne(body)
+  .then(function (result, err) {
+    if (err) {
+      res.status(400).send(err.message);
+    }
+      res.json(result);
+  });
+});
+
+app.updateOne('/pokemon/insert', jsonParser, (req, res) => {
+  const oldvalues = req.body.oldvalues;
+  const body = req.body;
+  const filter = { oldvalues };
+  console.log('Got body:', body);
+  const dbConnect = dbo.getDb();
+  dbConnect
+  .collection("pokemon")
+  .then(function (result, err) {
+    if (err) {
+      res.status(400).send(err.message);
+    }
+      res.json(result);
+  });
 });
