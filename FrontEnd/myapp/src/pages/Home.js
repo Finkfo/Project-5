@@ -14,21 +14,18 @@ export function Home(props) {
         .catch(error=>console.error("Erreur avec notre API :",error.message));
     },[]);
 
-    return <div className="pokemon-list">
-        <div class="flex">
-        {
-            pokemons.map((pokemon,key) =>{
-            return <div key={key} className="bloc-pokemon">
-                <img className="avatar" src={pokemon.img} />
-                <h2>{pokemon.name}</h2>
-                {/* <button onClick={()=>addToPokedex(pokemon._id)}>Capturer !</button> */}
-            </div>
-            })
-        }
-        </div>
-    <div>
-        <Menu />
-    </div>
-
-    </div>;
+  return <div className="pokemon-list">
+    <Menu/>
+    <div class="flex">
+      {
+        pokemons.map((pokemon,key) =>{
+          return <div key={key} className="bloc-pokemon">
+            {/* <img className="avatar" src={pokemon.img} /> */}
+            <h2>{pokemon.name}</h2>
+            {/* <button onClick={()=>addToPokedex(pokemon._id)}>Capturer !</button> */}
+          </div>
+        })
+      }
+     </div>
+</div>;
 }
