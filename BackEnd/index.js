@@ -3,6 +3,7 @@ const express = require("express");
 const bodyParser = require('body-parser');
 const jsonParser = bodyParser.json();
 const dbo = require("./db/db");
+const { ObjectId } = require('mongodb');
 const app = express();
 app.use(cors())
 const port = 4444;
@@ -141,13 +142,10 @@ app.post('/pokedex/insert', jsonParser, (req, res) => {
 });
 
 app.delete('/pokedex/delete', jsonParser, (req, res) => {
-  const body = req.body;
   console.log('Got body:', body);
   const dbConnect = dbo.getDb();
-  dbConnect
-    .collection("pokedex")
-    .deleteOne(body)
-    .then(function (result, err) {
+  const body = req.body;
+  dbConnect.collection("pokedex").deleteOne({_id:ObjectId(body._id)}).then(function (result, err) {
       if (err) {
         res.status(400).send(err.message);
       }

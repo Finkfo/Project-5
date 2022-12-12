@@ -31,7 +31,7 @@ export function Pokedex(props) {
                   </div>
                 )
               }
-              <button onClick={() => deleteOne(pokedex)}>Libérer !</button>
+              <button onClick={() => deleteOne(pokedex._id)}>Libérer !</button>
             </div>
           );
         })}
