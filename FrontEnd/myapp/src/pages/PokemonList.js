@@ -24,8 +24,8 @@ export function Pokemon(props) {
             return (
               <div key={key} className="bloc-pokemon">
                 <img className="avatar" src={pokemon.img} />
-                <h2>Nom: {pokemon.name} | Type: </h2> 
-                <img className="types" src={pokemon.type} />
+                <h2>Nom: <br/>{pokemon.name} <br/><br/> Type: </h2> 
+                <img className="types" src={pokemon.type} /><br/>
                 <button onClick={()=>addToPokedex(pokemon._id)}>Capturer !</button>
               </div>
             );
