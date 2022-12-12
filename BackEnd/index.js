@@ -30,11 +30,11 @@ app.get("/pokemon/list", function (req, res) {
         res.json(result);
       }
     });
-    /*
-    Bref lisez la doc, 
-    il y a plein de manières de faire ce qu'on veut :) 
-    */
-    
+  /*
+  Bref lisez la doc, 
+  il y a plein de manières de faire ce qu'on veut :) 
+  */
+
 });
 
 app.post('/pokemon/insert', jsonParser, (req, res) => {
@@ -42,14 +42,14 @@ app.post('/pokemon/insert', jsonParser, (req, res) => {
   console.log('Got body:', body);
   const dbConnect = dbo.getDb();
   dbConnect
-  .collection("pokemon")
-  .insertOne(body)
-  .then(function (result, err) {
-    if (err) {
-      res.status(400).send(err.message);
-    }
+    .collection("pokemon")
+    .insertOne(body)
+    .then(function (result, err) {
+      if (err) {
+        res.status(400).send(err.message);
+      }
       res.json(result);
-  });
+    });
 });
 
 app.delete('/pokemon/delete', jsonParser, (req, res) => {
@@ -57,20 +57,20 @@ app.delete('/pokemon/delete', jsonParser, (req, res) => {
   console.log('Got body:', body);
   const dbConnect = dbo.getDb();
   dbConnect
-  .collection("pokemon")
-  .deleteOne(body)
-  .then(function (result, err) {
-    if (err) {
-      res.status(400).send(err.message);
-    }
+    .collection("pokemon")
+    .deleteOne(body)
+    .then(function (result, err) {
+      if (err) {
+        res.status(400).send(err.message);
+      }
       res.json(result);
-  });
+    });
 });
 
 app.post('/pokemon/updateOne', jsonParser, (req, res) => {
   const body = req.body;
   const oldvalues = req.body.oldvalues;
-  const filter = { name:oldvalues };
+  const filter = { name: oldvalues };
   const newvalues = {
     $set: {
       name: req.body.newvalues
@@ -79,25 +79,26 @@ app.post('/pokemon/updateOne', jsonParser, (req, res) => {
   console.log('Got body:', body);
   const dbConnect = dbo.getDb();
   dbConnect
-  .collection("pokemon")
-  .updateOne(filter, newvalues)
-  .then(function (result, err) {
-    if (err) {
-      res.status(400).send(err.message);
-    }
+    .collection("pokemon")
+    .updateOne(filter, newvalues)
+    .then(function (result, err) {
+      if (err) {
+        res.status(400).send(err.message);
+      }
       res.json(result);
-  });
-}); 
+    });
+});
 
 
-app.get("/pokedex/list", function (req, res) {
+app.get("/pokemon/filter", (req, res) => {
+  const type_search = req.query.type_search;
+  const filter = { "type.name": type_search };
   //on se connecte à la DB MongoDB
   const dbConnect = dbo.getDb();
   //premier test permettant de récupérer mes pokedex !
   dbConnect
-    .collection("pokedex")
-    .find({}) // permet de filtrer les résultats
-    /*.limit(50) // pourrait permettre de limiter le nombre de résultats */
+    .collection("pokemon")
+    .find({"types.name":type_search})
     .toArray(function (err, result) {
       if (err) {
         res.status(400).send("Error fetching pokedex!");
@@ -105,11 +106,22 @@ app.get("/pokedex/list", function (req, res) {
         res.json(result);
       }
     });
-    /*
-    Bref lisez la doc, 
-    il y a plein de manières de faire ce qu'on veut :) 
-    */
-    
+
+});
+
+
+app.get("/pokedex/list", function (req, res) {
+  const dbConnect = dbo.getDb();
+  dbConnect
+    .collection("pokedex")
+    .find({}) 
+    .toArray(function (err, result) {
+      if (err) {
+        res.status(400).send("Error fetching pokedex!");
+      } else {
+        res.json(result);
+      }
+    });
 });
 
 app.post('/pokedex/insert', jsonParser, (req, res) => {
@@ -117,14 +129,15 @@ app.post('/pokedex/insert', jsonParser, (req, res) => {
   console.log('Got body:', body);
   const dbConnect = dbo.getDb();
   dbConnect
-  .collection("pokedex")
-  .insertOne(body)
-  .then(function (result, err) {
-    if (err) {
-      res.status(400).send(err.message);
-    }
+    .collection("pokedex")
+    .insertOne(body)
+    .then(function (result, err) {
+      if (err) {
+        res.status(400).send(err.message);
+      }
       res.json(result);
-  });
+    })
+    .catch(err => res.json(err));
 });
 
 app.delete('/pokedex/delete', jsonParser, (req, res) => {
@@ -132,20 +145,20 @@ app.delete('/pokedex/delete', jsonParser, (req, res) => {
   console.log('Got body:', body);
   const dbConnect = dbo.getDb();
   dbConnect
-  .collection("pokedex")
-  .deleteOne(body)
-  .then(function (result, err) {
-    if (err) {
-      res.status(400).send(err.message);
-    }
+    .collection("pokedex")
+    .deleteOne(body)
+    .then(function (result, err) {
+      if (err) {
+        res.status(400).send(err.message);
+      }
       res.json(result);
-  });
+    });
 });
 
 app.post('/pokedex/updateOne', jsonParser, (req, res) => {
   const body = req.body;
   const oldvalues = req.body.oldvalues;
-  const filter = { name:oldvalues };
+  const filter = { name: oldvalues };
   const newvalues = {
     $set: {
       name: req.body.newvalues
@@ -154,15 +167,15 @@ app.post('/pokedex/updateOne', jsonParser, (req, res) => {
   console.log('Got body:', body);
   const dbConnect = dbo.getDb();
   dbConnect
-  .collection("pokedex")
-  .updateOne(filter, newvalues)
-  .then(function (result, err) {
-    if (err) {
-      res.status(400).send(err.message);
-    }
+    .collection("pokedex")
+    .updateOne(filter, newvalues)
+    .then(function (result, err) {
+      if (err) {
+        res.status(400).send(err.message);
+      }
       res.json(result);
-  });
-}); 
+    });
+});
 
 
 app.get("/types/list", function (req, res) {
@@ -180,11 +193,11 @@ app.get("/types/list", function (req, res) {
         res.json(result);
       }
     });
-    /*
-    Bref lisez la doc, 
-    il y a plein de manières de faire ce qu'on veut :) 
-    */
-    
+  /*
+  Bref lisez la doc, 
+  il y a plein de manières de faire ce qu'on veut :) 
+  */
+
 });
 
 app.post('/types/insert', jsonParser, (req, res) => {
@@ -192,14 +205,14 @@ app.post('/types/insert', jsonParser, (req, res) => {
   console.log('Got body:', body);
   const dbConnect = dbo.getDb();
   dbConnect
-  .collection("types")
-  .insertOne(body)
-  .then(function (result, err) {
-    if (err) {
-      res.status(400).send(err.message);
-    }
+    .collection("types")
+    .insertOne(body)
+    .then(function (result, err) {
+      if (err) {
+        res.status(400).send(err.message);
+      }
       res.json(result);
-  });
+    });
 });
 
 app.delete('/types/delete', jsonParser, (req, res) => {
@@ -207,20 +220,20 @@ app.delete('/types/delete', jsonParser, (req, res) => {
   console.log('Got body:', body);
   const dbConnect = dbo.getDb();
   dbConnect
-  .collection("types")
-  .deleteOne(body)
-  .then(function (result, err) {
-    if (err) {
-      res.status(400).send(err.message);
-    }
+    .collection("types")
+    .deleteOne(body)
+    .then(function (result, err) {
+      if (err) {
+        res.status(400).send(err.message);
+      }
       res.json(result);
-  });
+    });
 });
 
 app.post('/types/updateOne', jsonParser, (req, res) => {
   const body = req.body;
   const oldvalues = req.body.oldvalues;
-  const filter = { name:oldvalues };
+  const filter = { name: oldvalues };
   const newvalues = {
     $set: {
       name: req.body.newvalues
@@ -229,12 +242,12 @@ app.post('/types/updateOne', jsonParser, (req, res) => {
   console.log('Got body:', body);
   const dbConnect = dbo.getDb();
   dbConnect
-  .collection("types")
-  .updateOne(filter, newvalues)
-  .then(function (result, err) {
-    if (err) {
-      res.status(400).send(err.message);
-    }
+    .collection("types")
+    .updateOne(filter, newvalues)
+    .then(function (result, err) {
+      if (err) {
+        res.status(400).send(err.message);
+      }
       res.json(result);
-  });
+    });
 }); 

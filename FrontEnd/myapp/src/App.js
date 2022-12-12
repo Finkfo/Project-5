@@ -1,4 +1,4 @@
-import {Home} from "./pages/Home";
+import {Dashboard, Home} from "./pages/Dashboard";
 import {Pokemon} from "./pages/PokemonList";
 import {Pokedex} from "./pages/Pokedex";
 import {
@@ -12,13 +12,13 @@ function App(props){
   return <Router>
       <Switch>
         <Route exact path="/"> {/*ici on met l'URL dans le navigateur*/}
-          <Home /> {/*ici on donne la page à afficher en fonction de cette URL*/}
-        </Route>
-        <Route path="/PokemonList">
-          <Pokemon />
+        <Pokemon /> {/*ici on donne la page à afficher en fonction de cette URL*/}
         </Route>
         <Route path="/Pokedex">
-          <Pokedex />
+          <Pokedex  />
+        </Route>
+        <Route path="/Dashboard">
+          <Dashboard />
         </Route>
       </Switch>
   </Router>
