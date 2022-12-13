@@ -1,10 +1,17 @@
 import { useEffect, useState } from "react";
-import { getAll } from "../api/pokemon";
+import { filter, getAll } from "../api/pokemon";
+import { getAlltypes } from "../api/getAlltypes";
 import Menu from "../components/menu";
 import { addToPokedex } from "../api/pokedex";
 
 export function Pokemon(props) {
-  const [pokemons, setPokemons] = useState([]);
+  const [pokemons, setPokemons] = useState([])
+  const [types, setTypes] = useState([])
+
+  const handleChangeType = async (name) => {
+    const pokes = await filter(name)
+    setPokemons(pokes)
+  }
 
   //va s'executer seulement au lancement du composant (dep: [])
   useEffect(() => {
@@ -15,11 +22,25 @@ export function Pokemon(props) {
       .catch((error) =>
         console.error("Erreur avec notre API :", error.message)
       );
-  }, []);
 
-  return (<div>
+      const typesFetched = getAlltypes();
+      typesFetched
+        .then((result) => setTypes(result))
+        .catch((error) =>
+          console.error("Erreur avec notre API :", error.message)
+        );
+  }, []);
+  return (
+  <div>
     <Menu />
-    {/* <button onClick={() => addToPokedex(pokemon)}>Capturer !</button> */}
+      <div className="filtrer">filtrer
+      </div>
+        {types.map((type, key) => {
+          return (
+              <img key={key} src={type.img} onClick={()=>handleChangeType(type.name)}  />
+          )
+        })}
+    {/* <button onClick={() => filter(pokemon)}>trier par type !</button> */}
     <div className="pokemon-list">
       <div className="flex">
         {pokemons.map((pokemon, key) => {

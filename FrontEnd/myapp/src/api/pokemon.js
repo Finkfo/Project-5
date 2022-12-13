@@ -11,9 +11,9 @@ export const getAll = async () => {
     const pokemons = await response.json()
     return pokemons
 }
-export const filter = async () => {
+export const filter = async (name) => {
     const response = await fetch(
-        'http://localhost:4444/pokemon/filter', {
+        'http://localhost:4444/pokemon/filter?type_search='+name, {
         method: 'GET',
         headers: {
             'Accept': 'application/json',
