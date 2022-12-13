@@ -141,16 +141,14 @@ app.post('/pokedex/insert', jsonParser, (req, res) => {
     .catch(err => res.json(err));
 });
 
-app.delete('/pokedex/delete', jsonParser, (req, res) => {
-  console.log('Got body:', body);
-  const dbConnect = dbo.getDb();
+app.delete('/pokedex/delete', jsonParser, (req, res) => { 
   const body = req.body;
-  dbConnect.collection("pokedex").deleteOne({_id:ObjectId(body._id)}).then(function (result, err) {
-      if (err) {
-        res.status(400).send(err.message);
-      }
-      res.json(result);
-    });
+  const dbConnect = dbo.getDb();
+  console.log('Got body:', body);
+  dbConnect
+  .collection("pokedex")
+  .deleteOne(body);
+  res.json(body);
 });
 
 app.post('/pokedex/updateOne', jsonParser, (req, res) => {

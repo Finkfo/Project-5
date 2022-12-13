@@ -29,16 +29,16 @@ export const addToPokedex = async (pokemon) => {
     return pokedexadd
 }
 
-export const deleteOne = async (pokedex) => {
+export const deleteOne = async (name) => {
     const response = await fetch(
         'http://localhost:4444/pokedex/delete', {
-        method: 'delete',
+        method: 'DELETE',
         headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/json'
-        }
-        , body:JSON.stringify({
-            '_id': pokedex._id,
+        },
+        body:JSON.stringify({
+            name:  name,
         })
     }
     )
