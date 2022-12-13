@@ -3,6 +3,7 @@ import { getAll, deleteOne } from "../api/pokedex";
 import Menu from "../components/menu";
 export function Pokedex(props) {
   const [pokedex, setPokedex] = useState([]);
+  const [count, setCount]= useState(0);
 
   //va s'executer seulement au lancement du composant (dep: [])
   useEffect(() => {
@@ -13,7 +14,7 @@ export function Pokedex(props) {
       .catch((error) =>
         console.error("Erreur avec notre API :", error.message)
       );
-  }, []);
+  }, [count]);
 
   return (<div>
     <Menu />
@@ -31,7 +32,7 @@ export function Pokedex(props) {
                   </div>
                 )
               }
-              <button onClick={() => deleteOne(pokedex.name)}>Libérer !</button>
+              <button onClick={() => {deleteOne(pokedex.name);setCount(count+1)}}>Libérer !</button>
             </div>
           );
         })}
