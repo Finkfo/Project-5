@@ -53,7 +53,7 @@ app.post('/pokemon/insert', jsonParser, (req, res) => {
     });
 });
 
-app.delete('/pokemon/delete', jsonParser, (req, res) => {
+app.delete('/pokemon/deleteOne', jsonParser, (req, res) => {
   const body = req.body;
   console.log('Got body:', body);
   const dbConnect = dbo.getDb();
