@@ -44,7 +44,6 @@ export function Pokemon(props) {
       <Menu />
       <div className="filtrer">
         <h2>Filtre</h2>
-        <img key={key} src={TOUS.png} onClick={() => show_all()} />
 
         {types.map((type, key) => {
           return (
