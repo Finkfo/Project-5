@@ -8,6 +8,14 @@ export function Pokemon(props) {
   const [pokemons, setPokemons] = useState([])
   const [types, setTypes] = useState([])
 
+  const show_all = async => {
+    const pokemonsFetched = getAll();
+    pokemonsFetched
+      .then((result) => setPokemons(result))
+      .catch((error) =>
+        console.error("Erreur avec notre API :", error.message)
+      );
+  }
   const handleChangeType = async (name) => {
     const pokes = await filter(name)
     setPokemons(pokes)
@@ -36,6 +44,7 @@ export function Pokemon(props) {
       <Menu />
       <div className="filtrer">
         <h2>Filtre</h2>
+        <img key={key} src={TOUS.png} onClick={() => show_all()} />
 
         {types.map((type, key) => {
           return (
