@@ -32,7 +32,8 @@ export function Pokedex(props) {
                   </div>
                 )
               }
-              <button onClick={() => {deleteOne(pokedex.name);setCount(count+1)}}>Libérer !</button>
+              <button onClick={async() => {
+                await deleteOne(pokedex.name);setCount(count+1)}}>Libérer !</button>
             </div>
           );
         })}

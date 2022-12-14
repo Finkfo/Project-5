@@ -31,10 +31,23 @@ app.get("/pokemon/list", function (req, res) {
         res.json(result);
       }
     });
-  /*
-  Bref lisez la doc, 
-  il y a plein de manières de faire ce qu'on veut :) 
-  */
+});
+/* index.js code before... */
+app.get("/pokemon/search", function (req, res) {
+  //on se connecte à la DB MongoDB
+  const dbConnect = dbo.getDb();
+  //premier test permettant de récupérer mes pokemons !
+  dbConnect
+    .collection("pokemon")
+    .findOne({name:req.query.name}) // permet de filtrer les résultats
+    /*.limit(50) // pourrait permettre de limiter le nombre de résultats */
+    .then(function (result,err) {
+      if (err) {
+        res.status(400).send("Error fetching pokemons!");
+      } else {
+        res.json(result);
+      }
+    });
 
 });
 
@@ -234,7 +247,7 @@ app.post('/types/updateOne', jsonParser, (req, res) => {
     $set: {
       name: req.body.newvalues
     }
-  };
+  };  
   console.log('Got body:', body);
   const dbConnect = dbo.getDb();
   dbConnect

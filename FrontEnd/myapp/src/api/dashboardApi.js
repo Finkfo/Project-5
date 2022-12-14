@@ -1,3 +1,17 @@
+export const getOne = async (showname) => {
+    const response = await fetch(
+        'http://localhost:4444/pokemon/search?name='+showname, {
+        method: 'GET',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        }
+    }
+    )
+    const types = await response.json()
+    return types
+}
+
 export const updateOne = async (oldvalues, newvalues) => {
     const response = await fetch(
         'http://localhost:4444/pokemon/updateOne', {
@@ -13,11 +27,11 @@ export const updateOne = async (oldvalues, newvalues) => {
 
     }
     )
-    const pokedex = await response.json()
-    return pokedex
+    const pokemon = await response.json()
+    return pokemon
 }
 
-export const deleteOne = async (name) => {
+export const deleteOne = async (delname) => {
     const response = await fetch(
         'http://localhost:4444/pokemon/deleteOne', {
         method: 'DELETE',
@@ -26,11 +40,11 @@ export const deleteOne = async (name) => {
             'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-            name: name
+            name: delname
         })
 
     }
     )
-    const pokedex = await response.json()
-    return pokedex
+    const pokemon = await response.json()
+    return pokemon
 }
